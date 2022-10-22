@@ -15,18 +15,18 @@ def generate_subpages(url, limit):
             temp = link['href']
         else:
             temp = url + link['href']
+        if not temp in urls:
+            urls.append(temp)
         urls.append(temp)
-        print(temp)
         generate_subpages(temp, limit - 1)
-    # return list(set([link['href'] if link['href'].__contains__('http') else url + link['href'] for link in
-    #                  soup.select("a[href$='.html']")]))
 
 
 if __name__ == '__main__':
-    site = 'http://www.millenniumtfi.pl' # example
+    # site = 'http://www.millenniumtfi.pl' # example
+    site = 'https://www.franklintempleton.pl' # cookie example
     generate_subpages(site, 1)
     print(len(urls))
     urls = []
-    generate_subpages(site, 2)
-    print(len(urls))
-    print(len(list(set(urls))))
+    # generate_subpages(site, 2)
+    # print(len(urls))
+    # print(len(list(set(urls))))
