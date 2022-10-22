@@ -43,7 +43,10 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
 def generate_subpages(base_url, url, depth):
     if depth == 0:
         return
-    response = requests.get(url)
+    try:
+        response = requests.get(url)
+    except requests.exceptions.InvalidURL:
+        return
     if not response.ok:
         return
     soup = BeautifulSoup(response.text, "html.parser")
@@ -85,3 +88,4 @@ if __name__ == '__main__':
     # sites = ['https://www.millenniumtfi.pl/', 'https://agiofunds.pl/']
     sites = ['https://agiofunds.pl/']
     extract_all(sites, 2)
+    # extract_kiid_files_from_url('https://agiofunds.pl', 'https://agiofunds.pltel:48225315454')
