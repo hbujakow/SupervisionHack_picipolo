@@ -13,7 +13,7 @@ oplaty_bież
 oplata_wynik
 cele_polit
 zysk_ryz
-oplaty_bież
+oplaty
 wyn_przesz
 info_prakt
 
