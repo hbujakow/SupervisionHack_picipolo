@@ -31,7 +31,7 @@ def stripp(raw: List[str]) -> List[str]:
     return list(map(lambda url: url[:-1] if url[-1] == '/' else url, raw))
 
 
-def read_websites_from_file(filepath: str) -> List[str]:
+def read_websites_from_file(filepath: Path) -> List[str]:
     """
     Reads websites from file
     :param filepath:

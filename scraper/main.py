@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import List
-
+from fuzzywuzzy import fuzz
 import requests
 from bs4 import BeautifulSoup
 
@@ -8,13 +8,19 @@ import utils.utils as utils
 
 data_path = Path(__file__).resolve().parents[0].joinpath('data', 'websites.txt')
 urls = []
-pdf_links = []
-filters = ['kiid', 'kluczowe', 'inwestycja', 'inwestycyjne', 'inwestor', 'inwestorów', 'dokument']
+filter = 'kluczowe informacje dla inwestorow'
+words = ['kiid', 'kluczowe informacje']
+iterator = 0
+
+
+def increment():
+    global iterator
+    iterator = iterator + 1
 
 
 def extract_kiid_files_from_url(base_url: str, url: str) -> None:
     """
-    Extracts only KIID related pdf files from given url
+    Extracts & downloads only KIID related pdf files from given url
     :param base_url: base url of webpage
     :param url: some subpage of base_url
     """
@@ -32,10 +38,13 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
     for link in soup.select("a[href$='.pdf']"):
         str_link = str(link).lower()
         str_link = str_link if str_link.endswith('/') else '/' + str_link
-        if any(filter in str_link for filter in filters):
-            href = link['href'] if link["href"].startswith('/') else str('/' + link['href'])
-            pdf_links.append(base_url + href)
-            print(base_url + href)
+        if any(word in str_link for word in words) or fuzz.ratio(link.text, filter) > 85:
+            href = link['href']
+            if not base_url in href:
+                href = base_url + href
+            print(iterator, href, sep=" ")
+            utils.download_pdf(href, str(iterator))
+            increment()
 
 
 def generate_subpages(base_url: str, url: str, depth: int) -> None:
@@ -60,13 +69,13 @@ def generate_subpages(base_url: str, url: str, depth: int) -> None:
     for link in soup.find_all("a"):
         if link.get('href') is None:
             continue
-        if link['href'].__contains__('http'):
+        if 'http' in link['href']:
             temp = link['href']
         else:
             temp = url + link['href']
         if not temp in urls and temp.find(base_url) != -1:
             urls.append(temp)
-            print(temp)
+            # print(temp)
         generate_subpages(base_url, temp, depth - 1)
 
 
@@ -77,19 +86,10 @@ def extract_all(sites: List[str], depth: int = 1) -> None:
         generate_subpages(site, site, depth)
         for url in urls:
             extract_kiid_files_from_url(site, url)
-    # print(pdf_links)
-
-
-def download_all_pdfs() -> None:
-    i = 0
-    for pdf in list(set(pdf_links)):
-        utils.download_pdf(pdf, i)
-        i += 1
 
 
 if __name__ == '__main__':
-    # webpages = utils.read_websites_from_file(data_path)
-
-    sites = ['https://www.caspar.com.pl/']  ### example
-    extract_all(sites, 1)
-    download_all_pdfs()
+    # sites = ['https://www.caspar.com.pl/']  ### example
+    webpages = utils.read_websites_from_file(data_path)
+    webpages = [utils.create_url(page) for page in webpages]
+    extract_all(webpages, 1)
