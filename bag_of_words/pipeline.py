@@ -1,5 +1,3 @@
-from xmlrpc.client import boolean
-
 from traitlets import Bool, default
 import fitz
 from typing import List
