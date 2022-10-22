@@ -1,11 +1,15 @@
 import pandas as pd
 import os
+from config_loader import load_config
 
-TEAM_NAME = "Picipolo"
-TEAM_ID = "8"
+config = load_config()
+
+TEAM_NAME = config['TEAM']['TEAM_NAME']
+TEAM_ID = config['TEAM']['TEAM_ID']
 NAMES_CSV = ["META", "BAGOFWORDS_S", "BAGOFWORDS_N",
              "WYRAZENIA", "DANE"]
-PATH_TO_RESULTS = "./results"
+TASK = config['TEAM']["TASK"]
+PATH_TO_RESULTS = config["RESULTS"]["PATH"]
 
 def create_all_csvs() -> None:
     for file in NAMES_CSV:

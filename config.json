@@ -1,0 +1,10 @@
+{
+    "TEAM" : {
+        "TEAM_NAME" : "Picipolo",
+        "TEAM_ID" : 8,
+        "TASK" : "KIID"
+    },
+    "RESULTS" : {
+        "PATH" : "./results"
+    }
+}
