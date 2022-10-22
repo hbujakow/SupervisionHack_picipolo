@@ -31,17 +31,24 @@ def download_pdf(url: str, name: str) -> None:
         f.write(response.content)
         f.close()
 
+def create_url(website: str) -> str:
+    return f"http://{website}/"
+
 
 if __name__ == '__main__':
     # urls = ["https://www.tfi.bnpparibas.pl/dokumenty,kluczowe-informacje-dla-inwestorow.html", 
     #     "https://www.pkotfi.pl/dokumenty-do-pobrania/kiid/", 
     #     "https://www.superfund.pl/",
     #     "https://noblefunds.pl/dokumenty-kiid"]
-    urls = ['https://noblefunds.pl/dokumenty-kiid']
+    # websites = ['www.vigcq-tfi.pl', 'www.uniqa.pl', 'www.pzu.pl']
+    # urls = [create_url(w) for w in websites]
+    urls = ['https://www.caspar.com.pl/dokumenty/tfi/dokumenty-funduszy/kluczowe-informacje-dla-inwestorow']
+    
     pdf_links = []
-    filters = ['kiid', 'kluczowe', 'inwestycja', 'inwestycyjne', 'inwestor', 'inwestorów', 'dokument']
+    filters = ['kiid', 'kluczowe', 'inwestycja', 'inwestycyjne', 'inwestor', 'inwestorów', 'dokument', 'kid']
     for url in urls:
         base_url = get_base_url(url)
+        print(base_url)
         extract_kiid_files_from_url(pdf_links, base_url, url)
     print(pdf_links)
     print(len(pdf_links))

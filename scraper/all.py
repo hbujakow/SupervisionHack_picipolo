@@ -1,12 +1,12 @@
+from posix import read
 from typing import List
 
 import requests
 from bs4 import BeautifulSoup
-
+from scraper import *
 urls = []
 pdf_links = []
-# filters = ['kiid', 'kluczowe', 'inwestycja', 'inwestycyjne', 'inwestor', 'inwestorów', 'dokument']
-filters = ['pdf']
+filters = ['kiid', 'kluczowe', 'inwestycja', 'inwestycyjne', 'inwestor', 'inwestorów', 'dokument']
 
 def get_base_url(url: str) -> str:
     start = 'h'
@@ -41,7 +41,7 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
 
 def download_pdf(url: str, name: str) -> None:
     response = requests.get(url, stream=True)
-    with open(f"pdf_{name}.pdf", 'wb') as f:
+    with open(f"./pdfdocuments/pdf_{name}.pdf", 'wb') as f:
         f.write(response.content)
         f.close()
 
@@ -79,18 +79,32 @@ def correct_url(url):
     return url
 
 
-def extract_all(sites, depth=1):
+def create_url(website: str) -> str:
+    return f"http://{website}/"
+
+
+def extract_all(sites, depth=1, download_pdfs = False):
     sites = stripp(sites)
     for site in sites:
         urls.clear()
         generate_subpages(site, site, depth)
-        print(urls)
         for url in urls:
             extract_kiid_files_from_url(get_base_url(url), url)
+    if download_pdfs:
+        for pdf in pdf_links:
+            download_pdf(pdf, str(pdf))
+
+def read_websites_from_file(filepath: str) -> List[str]:
+    with open(filepath, 'r') as f:
+        websites = [line[:-1] for line in f.readlines()]
+    return websites
 
 
 if __name__ == '__main__':
-    # sites = ['http://www.caspartfi.pl/']
-    # sites = ['https://www.millenniumtfi.pl/', 'https://agiofunds.pl/']
-    sites = ['https://agiofunds.pl/']
-    extract_all(sites, 2)
+    sites = ['https://www.caspar.com.pl/dokumenty/tfi/dokumenty-funduszy/kluczowe-informacje-dla-inwestorow'] ## example
+
+
+    # websites = read_websites_from_file('./websites.txt')
+
+    extract_all(sites, 1, True)
+    print(list(set(pdf_links)))
