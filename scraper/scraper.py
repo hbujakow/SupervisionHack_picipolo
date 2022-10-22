@@ -21,17 +21,18 @@ def extract_kiid_files_from_url(pdf_links: List[str], base_url: str, url: str) -
                 str_link = str_link if str_link.endswith('/') else '/' + str_link
                 for f in filters:
                         if f in str_link:
-                                href = link['href'] if link["href"].startswith('/') else str('/' + link['href'])
-                                pdf_links.append(base_url + href)
-                                break
+                            href = link['href'] if link["href"].startswith('/') else str('/' + link['href'])
+                            pdf_links.append(base_url + href)
+                            break
 
 
 
 
 if __name__ == '__main__':
-    urls = [#"https://www.tfi.bnpparibas.pl/dokumenty,kluczowe-informacje-dla-inwestorow.html", 
+    urls = ["https://www.tfi.bnpparibas.pl/dokumenty,kluczowe-informacje-dla-inwestorow.html", 
         "https://www.pkotfi.pl/dokumenty-do-pobrania/kiid/", 
-        "https://www.superfund.pl/"]
+        "https://www.superfund.pl/",
+        "https://noblefunds.pl/dokumenty-kiid"]
     pdf_links = []
     filters = ['kiid', 'kluczowe', 'inwestycja', 'inwestycyjne', 'inwestor', 'inwestorów', 'dokument']
     for url in urls:
