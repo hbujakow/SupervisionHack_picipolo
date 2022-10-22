@@ -38,7 +38,9 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
 
 def download_pdf(url: str, name: str) -> None:
     response = requests.get(url, stream=True)
-    with open(f"./pdfdocuments/pdf_{name}.pdf", 'wb') as f:
+    if not response.ok:
+        return
+    with open(f"./pdf_documents/pdf_{name}.pdf", 'wb') as f:
         f.write(response.content)
         f.close()
 
@@ -93,9 +95,12 @@ def extract_all(sites, depth=1, download_pdfs = False):
         generate_subpages(site, site, depth)
         for url in urls:
             extract_kiid_files_from_url(site, url)
+    print(pdf_links)
     if download_pdfs:
-        for pdf in pdf_links:
-            download_pdf(pdf, str(pdf))
+        i = 0
+        for pdf in list(set(pdf_links)):
+            download_pdf(pdf, i)
+            i += 1
 
 def read_websites_from_file(filepath: str) -> List[str]:
     with open(filepath, 'r') as f:
@@ -104,10 +109,9 @@ def read_websites_from_file(filepath: str) -> List[str]:
 
 
 if __name__ == '__main__':
-    sites = ['https://www.caspar.com.pl/dokumenty/tfi/dokumenty-funduszy/kluczowe-informacje-dla-inwestorow'] ## example
+    sites = ['https://www.caspar.com.pl/'] ## example
 
 
     # websites = read_websites_from_file('./websites.txt')
 
     extract_all(sites, 1, True)
-    print(list(set(pdf_links)))
