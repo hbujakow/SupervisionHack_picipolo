@@ -8,6 +8,7 @@ TEAM_NAME = config['TEAM']['TEAM_NAME']
 TEAM_ID = config['TEAM']['TEAM_ID']
 NAMES_CSV = ["META", "BAGOFWORDS_S", "BAGOFWORDS_N",
              "WYRAZENIA", "DANE"]
+TASK = config['TEAM']["TASK"]
 PATH_TO_RESULTS = config["RESULTS"]["PATH"]
 
 def create_all_csvs() -> None:

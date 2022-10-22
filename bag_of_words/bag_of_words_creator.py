@@ -5,23 +5,27 @@ from typing import List
 import re
 import pandas as pd
 import collections, itertools
+import sys, os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from utils import TEAM_NAME, TASK
 
 data_raw = pd.DataFrame(columns=["words", "count", "organisation", "team_id"])
 data_normalised = pd.DataFrame(columns=["words", "count", "organisation", "team_id"])
 
-class BagOfWordsCreator: ## klasa bez argumentow, wzeby zrobic csvki, wywolac na nim metode create_csv z text jako tekst z pdf (zczytany np funkcja read_pdf z pipeline.py) i main_key jako identyfikator dokumentu kiid
-    def __init__(self, model=spacy.load('pl_core_news_sm')):
+class BagOfWordsCreator:
         self.model = model
 
     def create_csv(self, text: str, main_key: int) -> None:
-        data_raw = "../results/Picipolo_KIID_BAGOFWORDS_R.csv"
-        data_normalised = "../results/Picipolo_KIID_BAGOFWORDS_N.csv"
+        data_raw = f"../results/{TEAM_NAME}_{KIID}_BAGOFWORDS_R.csv"
+        data_normalised = f"../results/{TEAM_NAME}_{KIID}_BAGOFWORDS_N.csv"
         df_raw = create_bag_of_words(text, main_key)
         df_normalised = create_bag_of_words(f, main_key, True)
         data_raw = pd.concat([data_raw, df_raw])
-        data_raw.to_csv('../results/Picipolo_KIID_BAGOFWORDS_R.csv')
+        data_raw.to_csv(f'../results/{TEAM_NAME}_{KIID}_BAGOFWORDS_R.csv')
         data_normalised = pd.concat([data_normalised, df_normalised])
-        data_normalised.to_csv("../results/Picipolo_KIID_BAGOFWORDS_N.csv")
+        data_normalised.to_csv(f"../results/{TEAM_NAME}_{KIID}_BAGOFWORDS_N.csv")
 
     def get_stopwords(self, ilepath: str) -> List[str]:
         with open(filepath, 'r') as f:
