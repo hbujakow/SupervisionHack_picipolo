@@ -15,7 +15,6 @@ def pdfToString(file):
     with fitz.open(Path(__file__).resolve().parents[1].joinpath('data', 'input', f'{file}.pdf')) as doc:
         for page in doc:
             text += page.get_text()
-
     return text
 
 

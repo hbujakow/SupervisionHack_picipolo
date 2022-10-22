@@ -1,5 +1,4 @@
-import utils.word_validator as word_validator
-
+import word_validator
 
 def word_matching(data, pdf_name, threshhold=95):
     data = data.lower()
@@ -14,7 +13,3 @@ def word_matching(data, pdf_name, threshhold=95):
             if word_validator.fuzz.partial_ratio(data, sentence) >= threshhold:
                 return True
     return False
-
-
-if __name__ == '__main__':
-    print(word_matching('pekao konserwatywny plus', 'ex'))
