@@ -1,18 +1,14 @@
 import os
-from PyPDF2 import PdfFileWriter, PdfFileReader
+from pdf2image import convert_from_path
 
-root = './dokumenty-labelowanie/'
+ROOT = './dokumenty-labelowanie/'
 
-for folder in os.listdir(root):
-    for file in os.listdir(os.path.join(root, folder)):
-        inputpdf = PdfFileReader(open(os.path.join(root, folder + '/', file), "rb"))
-        file_folder_name = file.replace('.pdf', '')
-        files_path = os.path.join(root, folder, file_folder_name)
-        isExist = os.path.exists(files_path)
-        if not isExist:
-            os.makedirs(files_path)
-        for i in range(inputpdf.numPages):
-            output = PdfFileWriter()
-            output.addPage(inputpdf.getPage(i))
-            with open(os.path.join(files_path, file.replace('.pdf', f'_{i}.pdf')), "wb") as outputStream:
-                output.write(outputStream)
+idx = 1
+
+for file in os.listdir(ROOT):
+    images = convert_from_path(os.path.join(ROOT, file), poppler_path=r'C:\Users\mikol\Downloads\poppler-22.04.0\Library\bin')
+    image0 = images[0]
+    image1 = images[1]
+    image0.save(f'./zdjecia/image_{idx}_0.png')
+    image1.save(f'./zdjecia/image_{idx}_1.png')
+    idx += 1
