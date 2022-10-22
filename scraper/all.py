@@ -8,17 +8,20 @@ pdf_links = []
 # filters = ['kiid', 'kluczowe', 'inwestycja', 'inwestycyjne', 'inwestor', 'inwestorów', 'dokument']
 filters = ['pdf']
 
+
 def get_base_url(url: str) -> str:
     start = 'h'
     http = '://'
     base_url = url[url.find(start):url.find('/', url.find(http) + len(http), len(url))]
     return base_url
 
+
 def check(url):
-    if url.find('.pl')!= -1:
+    if url.find('.pl') != -1:
         if url.find('.pl/') == -1:
             return False
     return True
+
 
 def extract_kiid_files_from_url(base_url: str, url: str) -> None:
     if not check(url):
@@ -43,6 +46,8 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
 def generate_subpages(base_url, url, depth):
     if depth == 0:
         return
+    if check(url):
+        return
     try:
         response = requests.get(url)
     except requests.exceptions.InvalidURL:
@@ -60,12 +65,13 @@ def generate_subpages(base_url, url, depth):
             temp = url + link['href']
         if not temp in urls and temp.find(base_url) != -1:
             urls.append(correct_url(temp))
-            # print(temp)
+            print(correct_url(temp))
         generate_subpages(base_url, temp, depth - 1)
 
 
 def stripp(raw):
     return list(map(lambda url: url[:-1] if url[-1] == '/' else url, raw))
+
 
 def correct_url(url):
     if url[-1] != '/':
@@ -87,5 +93,5 @@ if __name__ == '__main__':
     # sites = ['http://www.caspartfi.pl/']
     # sites = ['https://www.millenniumtfi.pl/', 'https://agiofunds.pl/']
     sites = ['https://agiofunds.pl/']
-    extract_all(sites, 2)
+    extract_all(sites, 3)
     # extract_kiid_files_from_url('https://agiofunds.pl', 'https://agiofunds.pltel:48225315454')
