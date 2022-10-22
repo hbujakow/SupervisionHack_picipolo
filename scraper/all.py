@@ -35,6 +35,15 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
                 print(base_url + href)
                 break
 
+def download_pdf(url: str, name: str) -> None:
+    response = requests.get(url, stream=True)
+    with open(f"pdf_{name}.pdf", 'wb') as f:
+        f.write(response.content)
+        f.close()
+
+def create_url(website: str) -> str:
+    return f"http://{website}/"
+
 
 def generate_subpages(base_url, url, depth):
     if depth == 0:
