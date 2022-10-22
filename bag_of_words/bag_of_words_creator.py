@@ -15,6 +15,7 @@ data_raw = pd.DataFrame(columns=["words", "count", "organisation", "team_id"])
 data_normalised = pd.DataFrame(columns=["words", "count", "organisation", "team_id"])
 
 class BagOfWordsCreator:
+    def __init__(self, model=spacy.load("pl_core_news_sm")):
         self.model = model
 
     def create_csv(self, text: str, main_key: int) -> None:
@@ -27,7 +28,7 @@ class BagOfWordsCreator:
         data_normalised = pd.concat([data_normalised, df_normalised])
         data_normalised.to_csv(f"../results/{TEAM_NAME}_{KIID}_BAGOFWORDS_N.csv")
 
-    def get_stopwords(self, ilepath: str) -> List[str]:
+    def get_stopwords(self, filepath: str) -> List[str]:
         with open(filepath, 'r') as f:
             stopwords = [line[:-1] for line in f.readlines()]
         return stopwords
