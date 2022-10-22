@@ -23,7 +23,8 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
         read = requests.get(url)
     except requests.exceptions:
         return
-
+    if not read.ok:
+        return
     html_content = read.content
     soup = BeautifulSoup(html_content, "html.parser")
 
