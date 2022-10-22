@@ -9,7 +9,7 @@ oplata_subs
 oplata_umorzenie
 oplaty_pob_roku
 oplaty_okresl_warun
-oplaty_bież
+oplaty_biez
 oplata_wynik
 cele_polit
 zysk_ryz
