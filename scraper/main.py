@@ -38,9 +38,11 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
     for link in soup.select("a[href$='.pdf']"):
         str_link = str(link).lower()
         str_link = str_link if str_link.endswith('/') else '/' + str_link
-        if any(word in str_link for word in words) or fuzz.ratio(link.text, filter) > 75:
+        if any(word in str_link for word in words) or fuzz.ratio(link.text, filter) > 85:
             href = link['href']
-            print(href)
+            if not base_url in href:
+                href = base_url + href
+            print(iterator, href, sep=" ")
             utils.download_pdf(href, str(iterator))
             increment()
 
