@@ -8,14 +8,19 @@ import utils.utils as utils
 
 data_path = Path(__file__).resolve().parents[0].joinpath('data', 'websites.txt')
 urls = []
-pdf_links = []
 filter = 'kluczowe informacje dla inwestorow'
 words = ['kiid', 'kluczowe informacje']
+iterator = 0
+
+
+def increment():
+    global iterator
+    iterator = iterator + 1
 
 
 def extract_kiid_files_from_url(base_url: str, url: str) -> None:
     """
-    Extracts only KIID related pdf files from given url
+    Extracts & downloads only KIID related pdf files from given url
     :param base_url: base url of webpage
     :param url: some subpage of base_url
     """
@@ -34,10 +39,10 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
         str_link = str(link).lower()
         str_link = str_link if str_link.endswith('/') else '/' + str_link
         if any(word in str_link for word in words) or fuzz.ratio(link.text, filter) > 75:
-            # print(link.text)
-            href = link['href'] if link["href"].startswith('/') else str('/' + link['href'])
-            pdf_links.append(base_url + href)
-            print(base_url + href)
+            href = link['href']
+            print(href)
+            utils.download_pdf(href, str(iterator))
+            increment()
 
 
 def generate_subpages(base_url: str, url: str, depth: int) -> None:
@@ -79,19 +84,10 @@ def extract_all(sites: List[str], depth: int = 1) -> None:
         generate_subpages(site, site, depth)
         for url in urls:
             extract_kiid_files_from_url(site, url)
-    # print(pdf_links)
-
-
-def download_all_pdfs() -> None:
-    i = 1
-    for pdf in list(set(pdf_links)):
-        utils.download_pdf(pdf, i)
-        i += 1
 
 
 if __name__ == '__main__':
     # sites = ['https://www.caspar.com.pl/']  ### example
     webpages = utils.read_websites_from_file(data_path)
     webpages = [utils.create_url(page) for page in webpages]
-    extract_all(webpages, 2)
-    download_all_pdfs()
+    extract_all(webpages, 1)
