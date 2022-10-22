@@ -9,7 +9,7 @@ import collections, itertools
 data_raw = pd.DataFrame(columns=["words", "count", "organisation", "team_id"])
 data_normalised = pd.DataFrame(columns=["words", "count", "organisation", "team_id"])
 
-class BagOfWordsCreator:
+class BagOfWordsCreator: ## klasa bez argumentow, wzeby zrobic csvki, wywolac na nim metode create_csv z text jako tekst z pdf (zczytany np funkcja read_pdf z pipeline.py) i main_key jako identyfikator dokumentu kiid
     def __init__(self, model=spacy.load('pl_core_news_sm')):
         self.model = model
 
