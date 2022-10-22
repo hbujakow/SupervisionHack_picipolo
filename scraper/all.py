@@ -9,13 +9,6 @@ pdf_links = []
 filters = ['pdf']
 
 
-def get_base_url(url: str) -> str:
-    start = 'h'
-    http = '://'
-    base_url = url[url.find(start):url.find('/', url.find(http) + len(http), len(url))]
-    return base_url
-
-
 def check(url):
     if url.find('.pl') != -1:
         if url.find('.pl/') == -1:
@@ -86,12 +79,12 @@ def extract_all(sites, depth=1):
         generate_subpages(site, site, depth)
         print(urls)
         for url in urls:
-            extract_kiid_files_from_url(get_base_url(url), url)
+            extract_kiid_files_from_url(site, url)
 
 
 if __name__ == '__main__':
     # sites = ['http://www.caspartfi.pl/']
-    # sites = ['https://www.millenniumtfi.pl/', 'https://agiofunds.pl/']
-    sites = ['https://agiofunds.pl/']
-    extract_all(sites, 3)
+    sites = ['https://www.millenniumtfi.pl/']
+    # sites = ['https://agiofunds.pl/']
+    extract_all(sites, 1)
     # extract_kiid_files_from_url('https://agiofunds.pl', 'https://agiofunds.pltel:48225315454')
