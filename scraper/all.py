@@ -8,17 +8,13 @@ urls = []
 pdf_links = []
 filters = ['kiid', 'kluczowe', 'inwestycja', 'inwestycyjne', 'inwestor', 'inwestorów', 'dokument']
 
-def get_base_url(url: str) -> str:
-    start = 'h'
-    http = '://'
-    base_url = url[url.find(start):url.find('/', url.find(http) + len(http), len(url))]
-    return base_url
 
 def check(url):
-    if url.find('.pl')!= -1:
+    if url.find('.pl') != -1:
         if url.find('.pl/') == -1:
             return False
     return True
+
 
 def extract_kiid_files_from_url(base_url: str, url: str) -> None:
     if not check(url):
@@ -27,7 +23,8 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
         read = requests.get(url)
     except requests.exceptions:
         return
-
+    if not read.ok:
+        return
     html_content = read.content
     soup = BeautifulSoup(html_content, "html.parser")
 
@@ -52,7 +49,12 @@ def create_url(website: str) -> str:
 def generate_subpages(base_url, url, depth):
     if depth == 0:
         return
-    response = requests.get(url)
+    if check(url):
+        return
+    try:
+        response = requests.get(url)
+    except requests.exceptions.InvalidURL:
+        return
     if not response.ok:
         return
     soup = BeautifulSoup(response.text, "html.parser")
@@ -66,12 +68,13 @@ def generate_subpages(base_url, url, depth):
             temp = url + link['href']
         if not temp in urls and temp.find(base_url) != -1:
             urls.append(correct_url(temp))
-            # print(temp)
+            print(correct_url(temp))
         generate_subpages(base_url, temp, depth - 1)
 
 
 def stripp(raw):
     return list(map(lambda url: url[:-1] if url[-1] == '/' else url, raw))
+
 
 def correct_url(url):
     if url[-1] != '/':
@@ -89,7 +92,7 @@ def extract_all(sites, depth=1, download_pdfs = False):
         urls.clear()
         generate_subpages(site, site, depth)
         for url in urls:
-            extract_kiid_files_from_url(get_base_url(url), url)
+            extract_kiid_files_from_url(site, url)
     if download_pdfs:
         for pdf in pdf_links:
             download_pdf(pdf, str(pdf))
