@@ -1,7 +1,7 @@
 import pandas as pd
 from main.utils import read_data, TEAM_ID, export_data, Name
 import expression_utils
-from main.word_validator import word_matching
+from expression_checker.word_validator import word_matching
 
 
 class ExpressionClass():
