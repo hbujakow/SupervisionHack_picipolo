@@ -9,10 +9,10 @@ class ExpressionClass():
         self.required = expression_utils.required
 
     def update_csv_file(self, primary_key, pdf_name):
-        data = read_data(Name.WYRAZENIA)
+        data = read_data(Name.WYRAZENIA.value)
         for sentence in self.required:
             record = pd.DataFrame(
                 [[primary_key, TEAM_ID, sentence, word_matching.word_matching(sentence, pdf_name)]],
                 columns=data.columns)
             data = pd.concat([data, record])
-        export_data(data, Name.WYRAZENIA)
+        export_data(data, Name.WYRAZENIA.value)
