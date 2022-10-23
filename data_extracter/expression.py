@@ -17,7 +17,7 @@ class ExpressionsToFind(Enum):
     FREQUENCY = ("czestotliwosc zbywania i odkupowania", r"((\b(miesieczny|M)\b)|(\b(dzienny|D)\b)|\b((kwartal|Q))\b|\b(tygodniowy|W)\b)", Rule.NEAR_NEIGHBOURHOOD)
     DIVIDEND = ("czy wypłaca diwidende", None, Rule.NEAR_NEIGHBOURHOOD)
     BENCHMARK = ("benchmark", r"benchmark(.*?)\.", Rule.WHOLE_STRING)
-    # ADVISED_PERIOD_INVESTMENT = ("zalecany okres inwestycji", None, Rule.NEAR_NEIGHBOURHOOD),  # need to implement custom logic
+    # # ADVISED_PERIOD_INVESTMENT = ("zalecany okres inwestycji", None, Rule.NEAR_NEIGHBOURHOOD),  # need to implement custom logic
     RISK_PROFIT_PROFILE = ("profil ryzyka i zysku", r"Profil ryzyka i zysku(.*)(.*?)", Rule.WHOLE_STRING)
     SRRI = ("SRRI", r"\b[1-7]\b", Rule.NEAR_NEIGHBOURHOOD)
     FUND_TYPE = ("typ funduszu", r"(\b|^)(SFIO)\b", Rule.WHOLE_STRING)

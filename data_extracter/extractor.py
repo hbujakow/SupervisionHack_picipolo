@@ -1,4 +1,3 @@
-from data_extracter.expression import ExpressionsToFind
 from typing import List
 import os
 import sys
@@ -6,6 +5,7 @@ import pandas as pd
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from main.utils import TEAM_ID,  read_data, export_data, Name
+from data_extracter.expression import ExpressionsToFind
 
 class DataExtractor:
     def __init__(self):
@@ -47,7 +47,7 @@ class DataExtractor:
                                             results.append(None)
                                 case Rule.NEAR_NEIGHBOURHOOD:
                                     start_idx = idx_of_tag - Rule.NEAR_NEIGHBOURHOOD.value if (idx_of_tag - Rule.NEAR_NEIGHBOURHOOD.value) > 0 else 0
-                                    end_idx = idx_of_tag + Rule.NEAR_NEIGHBOURHOOD if (idx_of_tag + Rule.NEAR_NEIGHBOURHOOD) <= len(words) - 1 else len(words) - 1
+                                    end_idx = idx_of_tag + Rule.NEAR_NEIGHBOURHOOD.value if (idx_of_tag + Rule.NEAR_NEIGHBOURHOOD.value) <= len(words) - 1 else len(words) - 1
                                     subtext = ' '.join(words[start_idx:end_idx])
                                     found = re.search(way_to_handle, subtext)
                                     if found:
@@ -56,7 +56,7 @@ class DataExtractor:
                                         results.append(None)
                                 case Rule.STRICTER_NEAR_NEIGHBOURHOOD:
                                     start_idx = idx_of_tag - Rule.STRICTER_NEAR_NEIGHBOURHOOD.value if (idx_of_tag - Rule.STRICTER_NEAR_NEIGHBOURHOOD.value) > 0 else 0
-                                    end_idx = idx_of_tag + Rule.STRICTER_NEAR_NEIGHBOURHOOD if (idx_of_tag + Rule.STRICTER_NEAR_NEIGHBOURHOOD) <= (len(words) - 1) else (len(words) - 1)
+                                    end_idx = idx_of_tag + Rule.STRICTER_NEAR_NEIGHBOURHOOD.value if (idx_of_tag + Rule.STRICTER_NEAR_NEIGHBOURHOOD.value) <= (len(words) - 1) else (len(words) - 1)
                                     subtext = ' '.join(words[start_idx:end_idx])
                                     found = re.search(way_to_handle, subtext)
                                     if found:
@@ -68,7 +68,7 @@ class DataExtractor:
                             found = re.search(r'\b(dywidend)(\b|\.)')
                             if found:
                                 start_idx = idx_of_tag - Rule.NEAR_NEIGHBOURHOOD.value if (idx_of_tag - Rule.NEAR_NEIGHBOURHOOD.value) > 0 else 0
-                                end_idx = idx_of_tag + Rule.STRICTER_NEAR_NEIGHBOURHOOD if (idx_of_tag + Rule.STRICTER_NEAR_NEIGHBOURHOOD) <= (len(words) - 1) else (len(words) - 1)
+                                end_idx = idx_of_tag + Rule.STRICTER_NEAR_NEIGHBOURHOOD.value if (idx_of_tag + Rule.STRICTER_NEAR_NEIGHBOURHOOD.value) <= (len(words) - 1) else (len(words) - 1)
                                 subtext = ' '.join(words[start_idx:end_idx])
                                 if re.rearch(r'\b(nie)\b'):
                                     results.append(False)
@@ -79,4 +79,4 @@ class DataExtractor:
         return pd.DataFrame([result], columns=columns)
 
 
-
+DataExtractor().cokolwiek()
