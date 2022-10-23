@@ -16,7 +16,7 @@ class BagOfWordsCreator:
         self.model = model
 
     def create_csv(self, text: str, main_key: int) -> None:
-        data_raw = read_data(Name.BAGOFWORDS_S)
+        data_raw = read_data(Name.BAGOFWORDS_S.value)
         data_normalised = read_data(Name.BAGOFWORDS_N.value)
         df_raw = self.create_bag_of_words(text, main_key)
         df_normalised = self.create_bag_of_words(text, main_key, True)
