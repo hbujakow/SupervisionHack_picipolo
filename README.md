@@ -20,6 +20,9 @@ If you want to use your own pdfs, insert them in `/results` directory.
 
 In order to validate pdfs located in `/results` directory, run `python3 main.py`
 
+## Future implementation
+We plan to extend our application by adding advanced deep learning modules & gui, which prototype is included in our PRs. It was created in `streamlit`, however it can be extended in `React.js`
+
 ### Authors:
 - Mikołaj Gałkowski
 - Hubert Bujakowski
