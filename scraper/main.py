@@ -11,6 +11,14 @@ urls = []
 filter = 'kluczowe informacje dla inwestorow'
 words = ['kiid', 'kluczowe informacje']
 iterator = 0
+pdf_iter = 0
+MAX_pdf = 10
+leave_page = False
+
+
+def pdf_increment():
+    global pdf_iter
+    pdf_iter = pdf_iter + 1
 
 
 def increment():
@@ -24,6 +32,7 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
     :param base_url: base url of webpage
     :param url: some subpage of base_url
     """
+    global pdf_iter
     if not utils.check(url):
         return
     try:
@@ -34,7 +43,6 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
         return
     html_content = read.content
     soup = BeautifulSoup(html_content, "html.parser")
-    limit = 0
     for link in soup.select("a[href$='.pdf']"):
         str_link = str(link).lower()
         str_link = str_link if str_link.endswith('/') else '/' + str_link
@@ -43,11 +51,8 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
             if not base_url in href:
                 href = base_url + href
             print(iterator, href, sep=" ")
+            pdf_iter += 1
             utils.download_pdf(href, str(iterator))
-            limit += 1
-            increment()
-        if limit == 10:
-            break
 
 
 def generate_subpages(base_url: str, url: str, depth: int) -> None:
@@ -57,6 +62,7 @@ def generate_subpages(base_url: str, url: str, depth: int) -> None:
     :param url: subpage of base_url
     :param depth: how much depth we need (recursive)
     """
+    global pdf_iter, leave_page
     if depth == 0:
         return
     if utils.check(url):
@@ -68,8 +74,8 @@ def generate_subpages(base_url: str, url: str, depth: int) -> None:
     if not response.ok:
         return
     soup = BeautifulSoup(response.text, "html.parser")
-
-    for link in soup.find_all("a"):
+    leave_page = False
+    for link in soup.find_all("a") and not leave_page:
         if link.get('href') is None:
             continue
         if 'http' in link['href']:
@@ -78,18 +84,20 @@ def generate_subpages(base_url: str, url: str, depth: int) -> None:
             temp = url + link['href']
         if not temp in urls and temp.find(base_url) != -1:
             urls.append(temp)
-            # print(temp)
+            pdf_iter = 0
+            extract_kiid_files_from_url(base_url, temp)
+            if pdf_iter > MAX_pdf:
+                leave_page = True
+                pdf_iter = 0
+                break
         generate_subpages(base_url, temp, depth - 1)
 
 
 def extract_all(sites: List[str], depth: int = 1) -> None:
     sites = utils.stripp(sites)
     for site in sites:
-        print(site)
-        urls.clear()
+        urls = []
         generate_subpages(site, site, depth)
-        for url in urls:
-            extract_kiid_files_from_url(site, url)
 
 
 if __name__ == '__main__':
