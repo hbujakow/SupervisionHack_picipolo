@@ -1,7 +1,11 @@
 import pandas as pd
-import os
-from config_loader import load_config
+import os, sys
 from enum import Enum
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from config_loader import load_config
+
 
 config = load_config()
 
@@ -53,7 +57,7 @@ def create_all_csvs() -> None:
                                       "NUMER_RFI", "DATA_AKTUALIZACJI_KIID", "KATEGORIE_JEDNOSTEK_UCZESTNICTWA",
                                       "CZESTOTLIWOSC_ZBYWANIA_I_ODKUPOWANIA_JEDNOSTEK_UCZESTNICTWA",
                                       "CZY_FUNDUSZ_WYPLACA_DYWIDENDE", "BENCHMARK",
-                                      "ZALECANY_OKRES_INWESTYCJI", "PROFIL_RYZYKA_I_ZYSKU", "SRRI",
+                                      "PROFIL_RYZYKA_I_ZYSKU", "SRRI",
                                       "FUND_TYPE"]).to_csv(path_to_save, index=False)
             case _:
                 raise ValueError("Wrong value")
