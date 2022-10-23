@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from main.utils import TEAM_NAME, TASK, TEAM_ID,  read_data, export_data, Name
+from main.utils import TEAM_ID,  read_data, export_data, Name
 
 class DataExtractor:
     def __init__(self):

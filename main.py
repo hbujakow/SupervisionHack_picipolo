@@ -1,4 +1,4 @@
-from utils import create_all_csvs
+from main.utils import create_all_csvs
 from data_extracter.extractor import DataExtractor
 
 import PyPDF2
@@ -12,7 +12,7 @@ import PyPDF2
 
 def main():
     # print('cokolwiek')
-    reader = PyPDF2.PdfFileReader('documents/KIID_AGIO_Dochodowy_PLUS-1.pdf')
+    reader = PyPDF2.PdfFileReader('../documents/KIID_AGIO_Dochodowy_PLUS-1.pdf')
     whole_text = [reader.getPage(i).extractText() for i in range(2)]
     tmp = [el.split('\n') for el in whole_text]
     whole_text = tmp[0]

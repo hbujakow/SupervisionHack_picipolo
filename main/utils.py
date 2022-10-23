@@ -14,7 +14,7 @@ TEAM_ID = config['TEAM']['TEAM_ID']
 NAMES_CSV = ["META", "BAGOFWORDS_S", "BAGOFWORDS_N",
              "WYRAZENIA", "DANE"]
 TASK = config['TEAM']["TASK"]
-PATH_TO_RESULTS = Path(__file__).resolve().parents[1].joinpath(config["RESULTS"]["PATH"])
+PATH_TO_RESULTS = str(Path(__file__).resolve().parents[1].joinpath(config["RESULTS"]["PATH"]))
 
 
 class Name(Enum):

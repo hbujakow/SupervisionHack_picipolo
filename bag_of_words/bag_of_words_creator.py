@@ -1,12 +1,10 @@
 import spacy
-from traitlets import Bool, default
-import fitz
 from typing import List
 import re
 import pandas as pd
 import collections, itertools
 import sys, os
-from main.utils import TEAM_NAME, TEAM_ID, read_data, export_data, Name
+from main import TEAM_ID, read_data, export_data, Name
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
