@@ -4,7 +4,7 @@ from fuzzywuzzy import fuzz
 import requests
 from bs4 import BeautifulSoup
 
-import utils.utils as utils
+import utils
 
 data_path = Path(__file__).resolve().parents[0].joinpath('data', 'websites.txt')
 urls = []

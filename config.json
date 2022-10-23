@@ -5,6 +5,6 @@
         "TASK" : "KIID"
     },
     "RESULTS" : {
-        "PATH" : "../results"
+        "PATH" : "results"
     }
 }
