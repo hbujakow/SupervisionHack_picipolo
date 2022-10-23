@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from config_loader import load_config
+from enum import Enum
 
 config = load_config()
 
@@ -11,17 +12,30 @@ NAMES_CSV = ["META", "BAGOFWORDS_S", "BAGOFWORDS_N",
 TASK = config['TEAM']["TASK"]
 PATH_TO_RESULTS = config["RESULTS"]["PATH"]
 
-def export(df, name):
-    df.to_csv(PATH_TO_RESULTS + '/' + TEAM_NAME + "_" + str(TEAM_ID) + "_" + name + '.csv')
+
+class Name(Enum):
+    BAGOFWORDS_N = 'BAGOFWORDS_N'
+    BAGOFWORDS_S = 'BAGOFWORDS_S'
+    DANE = 'DANE'
+    META = 'META'
+    WYRAZENIA = 'WYRAZENIA'
+
+
+def export_data(df, name):
+    df.to_csv(PATH_TO_RESULTS + '/' + TEAM_NAME + "_" + str(TEAM_ID) + "_" + TASK + "_" + name + '.csv')
 
 
 def read_data(name):
-    return pd.read_csv(PATH_TO_RESULTS + '/' + TEAM_NAME + "_" + str(TEAM_ID) + "_" + name + '.csv')
+    try:
+        data = pd.read_csv(PATH_TO_RESULTS + '/' + TEAM_NAME + "_" + str(TEAM_ID) + "_" + TASK + "_" + name + '.csv')
+        return data
+    except FileNotFoundError:
+        pass
 
 
 def create_all_csvs() -> None:
     for file in NAMES_CSV:
-        path_to_save = os.path.join(PATH_TO_RESULTS, f"{TEAM_NAME}_{TEAM_ID}_{file}.csv")
+        path_to_save = os.path.join(PATH_TO_RESULTS, f"{TEAM_NAME}_{TEAM_ID}_KIID_{file}.csv")
         match file:
             case "META":
                 pd.DataFrame(columns=["ID_KIID", "ID_ZESPOLU", "NAZWA_PLIKU"]).to_csv(path_to_save, index=False)
