@@ -53,6 +53,7 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
             print(iterator, href, sep=" ")
             pdf_iter += 1
             utils.download_pdf(href, str(iterator))
+            increment()
 
 
 def generate_subpages(base_url: str, url: str, depth: int) -> None:
@@ -75,7 +76,9 @@ def generate_subpages(base_url: str, url: str, depth: int) -> None:
         return
     soup = BeautifulSoup(response.text, "html.parser")
     leave_page = False
-    for link in soup.find_all("a") and not leave_page:
+    for link in soup.find_all("a"):
+        if leave_page:
+            break
         if link.get('href') is None:
             continue
         if 'http' in link['href']:
@@ -101,7 +104,7 @@ def extract_all(sites: List[str], depth: int = 1) -> None:
 
 
 if __name__ == '__main__':
-    # sites = ['https://www.caspar.com.pl/']  ### example
-    webpages = utils.read_websites_from_file(data_path)
-    webpages = [utils.create_url(page) for page in webpages]
-    extract_all(webpages, 1)
+    sites = ['https://www.caspar.com.pl/']  ### example
+    # webpages = utils.read_websites_from_file(data_path)
+    # webpages = [utils.create_url(page) for page in webpages]
+    extract_all(sites, 2)
