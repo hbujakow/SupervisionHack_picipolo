@@ -1,6 +1,6 @@
 # SupervisionHack_picipolo
 
-
+Organised by the Polish Financial Supervision Authority. 
 
 ## The task was to prepare data from PDF files, which we had to scrape from portals provided by the organizers.
 
