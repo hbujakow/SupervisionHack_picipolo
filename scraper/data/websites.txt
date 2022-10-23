@@ -1,3 +1,4 @@
+www.millenniumtfi.pl
 www.agiofunds.pl
 www.aliortfi.com
 www.amundi.pl
@@ -10,7 +11,6 @@ www.esaliens.pl
 www.generali-investments.pl
 www.investors.pl
 www.ipopema.pl
-www.millenniumtfi.pl
 www.metlife.pl
 www.nntfi.pl
 www.noblefunds.pl
