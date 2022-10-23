@@ -22,12 +22,12 @@ class Name(Enum):
 
 
 def export_data(df, name):
-    df.to_csv(PATH_TO_RESULTS + '/' + TEAM_NAME + "_" + str(TEAM_ID) + "_" + TASK + "_" + name + '.csv')
+    df.to_csv(PATH_TO_RESULTS + '/' + TEAM_NAME + "_" + TASK + "_" + name + '.csv')
 
 
 def read_data(name):
     try:
-        data = pd.read_csv(PATH_TO_RESULTS + '/' + TEAM_NAME + "_" + str(TEAM_ID) + "_" + TASK + "_" + name + '.csv')
+        data = pd.read_csv(PATH_TO_RESULTS + '/' + TEAM_NAME + "_" + TASK + "_" + name + '.csv')
         return data
     except FileNotFoundError:
         pass
@@ -35,7 +35,7 @@ def read_data(name):
 
 def create_all_csvs() -> None:
     for file in NAMES_CSV:
-        path_to_save = os.path.join(PATH_TO_RESULTS, f"{TEAM_NAME}_{TEAM_ID}_KIID_{file}.csv")
+        path_to_save = os.path.join(PATH_TO_RESULTS, f"{TEAM_NAME}_{TASK}_{file}.csv")
         match file:
             case "META":
                 pd.DataFrame(columns=["ID_KIID", "ID_ZESPOLU", "NAZWA_PLIKU"]).to_csv(path_to_save, index=False)
@@ -56,7 +56,7 @@ def create_all_csvs() -> None:
                                       "ZALECANY_OKRES_INWESTYCJI", "PROFIL_RYZYKA_I_ZYSKU", "SRRI",
                                       "FUND_TYPE"]).to_csv(path_to_save, index=False)
             case _:
-                raise ValueError
+                raise ValueError("Wrong value")
 
 
 if __name__ == '__main__':
