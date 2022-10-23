@@ -34,17 +34,20 @@ def extract_kiid_files_from_url(base_url: str, url: str) -> None:
         return
     html_content = read.content
     soup = BeautifulSoup(html_content, "html.parser")
-
+    limit = 0
     for link in soup.select("a[href$='.pdf']"):
         str_link = str(link).lower()
         str_link = str_link if str_link.endswith('/') else '/' + str_link
-        if any(word in str_link for word in words) or fuzz.ratio(link.text, filter) > 85:
+        if any(word in str_link for word in words) or fuzz.ratio(link.text, filter) >= 90:
             href = link['href']
             if not base_url in href:
                 href = base_url + href
             print(iterator, href, sep=" ")
             utils.download_pdf(href, str(iterator))
+            limit += 1
             increment()
+        if limit == 10:
+            break
 
 
 def generate_subpages(base_url: str, url: str, depth: int) -> None:
@@ -82,6 +85,7 @@ def generate_subpages(base_url: str, url: str, depth: int) -> None:
 def extract_all(sites: List[str], depth: int = 1) -> None:
     sites = utils.stripp(sites)
     for site in sites:
+        print(site)
         urls.clear()
         generate_subpages(site, site, depth)
         for url in urls:
