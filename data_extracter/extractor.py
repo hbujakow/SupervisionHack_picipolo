@@ -77,6 +77,3 @@ class DataExtractor:
                     case _:
                         raise Error("Invalid way to handle expressions")
         return pd.DataFrame([result], columns=columns)
-
-
-DataExtractor().cokolwiek()

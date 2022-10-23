@@ -4,10 +4,10 @@ import re
 import pandas as pd
 import collections, itertools
 import sys, os
-from main import TEAM_ID, read_data, export_data, Name
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from main import TEAM_ID, read_data, export_data, Name
 
 class BagOfWordsCreator:
     def __init__(self, model=spacy.load("pl_core_news_sm")):

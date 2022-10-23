@@ -1,6 +1,6 @@
 from main.utils import create_all_csvs
 from data_extracter.extractor import DataExtractor
-from bag_of_words.bag_of_words_creater import BagOfWordsCreator
+from bag_of_words.bag_of_words_creator import BagOfWordsCreator
 from expresion_checker.expression_checker import ExpressionChecker
 from info_csv import MetaInfo
 
@@ -32,4 +32,4 @@ def main():
 
 if __name__ == '__main__':
     create_all_csvs()
-    main()
+    # main()
