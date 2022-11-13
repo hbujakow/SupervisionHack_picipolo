@@ -1,7 +1,7 @@
 import pandas as pd
 import os, sys
 
-from main import TEAM_NAME, Name, export_data, read_data
+from main.utils import TEAM_NAME, Name, export_data, read_data
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
