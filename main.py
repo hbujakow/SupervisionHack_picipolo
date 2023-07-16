@@ -1,9 +1,10 @@
 from main.utils import create_all_csvs
 from data_extracter.extractor import DataExtractor
 from bag_of_words.bag_of_words_creator import BagOfWordsCreator
-from expresion_checker.expression_checker import ExpressionChecker
+from expression_checker.expression_checker import ExpressionClass
 from info_csv import MetaInfo
 
+import os
 import PyPDF2
 
 
@@ -20,12 +21,12 @@ def main():
         info_csv = MetaInfo()
         dataExtractor = DataExtractor()
         bagOfWords = BagOfWordsCreator()
-        expresionChecker - ExpressionChecker()
+        expressionChecker = ExpressionClass()
 
         info_csv.update_csv_file(file, primary_key)
         dataExtractor.update_csv_file(whole_text, primary_key)
         bagOfWords.update_csv_file(whole_text, primary_key)
-        expresionChecker.update_csv_file(whole_text, primary_key)
+        expressionChecker.update_csv_file(whole_text, primary_key)
 
         primary_key += 1
 
